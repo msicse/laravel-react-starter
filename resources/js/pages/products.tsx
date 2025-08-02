@@ -5,63 +5,16 @@ function Products() {
   return (
     <BaseLayout>
         <Head title="Products" />
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
-        <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio beatae voluptate, iste ipsum perferendis tenetur ipsa! Dolorem doloremque praesentium quam eveniet autem, nemo porro iure ab ratione maiores pariatur minima.
-        </p>
+        <PageHeader
+            title="Products"
+            description="Manage your inventory"
+            action={{
+                label: 'Add Product',
+                icon: <Plus className="h-4 w-4" />,
+                href: route('products.create'),
+                size: 'sm',
+            }}
+        />
     </BaseLayout>
   )
 }
