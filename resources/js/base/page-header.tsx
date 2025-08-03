@@ -27,7 +27,7 @@ export function PageHeader({
   action
 }: PageHeaderProps) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
       <div className="flex items-center gap-4">
         {backLink && (
           <Button variant="outline" size="icon" className="h-8 w-8" asChild>
