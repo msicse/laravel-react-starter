@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,21 +8,30 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Input } from '@/components/ui/input';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAppearance } from '@/hooks/use-appearance';
 import { Link } from '@inertiajs/react';
 import { LogOut, Moon, Settings, Sun, User } from 'lucide-react';
 
 const BaseNavebar = () => {
     const { updateAppearance } = useAppearance();
+
     return (
-        <nav className="sticky z-10 bg-background/95 supports-[backdrop-filter]:bg-background/60  backdrop-blur top-0 flex shrink-0 border-b items-center justify-between px-4 h-16">
+        <nav className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             {/* Left  */}
-            <SidebarTrigger className="mr-4"/>
+            <div className="flex items-center justify-evenly gap-4">
+                <SidebarTrigger className="mr-4" />
+                <Input type="text" placeholder="Search" className="w-2xs" />
+            </div>
+
             {/* Right */}
             <div className="flex items-center gap-4">
                 <Link href="/dashboard" className="">
                     Dashboard
+                </Link>
+                <Link href="/products" className="">
+                    Products
                 </Link>
 
                 <DropdownMenu>
