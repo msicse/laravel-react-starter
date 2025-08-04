@@ -29,6 +29,8 @@ class ProductController extends Controller
         $products = $query->paginate($request->perPage ?? 10)
             ->withQueryString();
 
+
+
         return Inertia::render('products', [
             'products' => $products,
             // 'categories' => Category::all(),
