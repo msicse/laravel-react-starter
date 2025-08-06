@@ -62,7 +62,6 @@ interface Props extends PageProps {
 function Products({ products, filters }: Props) {
     const [search, setSearch] = useState(filters.search || '');
     // const [category, setCategory] = useState(filters.category || 'all');
-    const [perPage, setPerPage] = useState(filters.perPage || '10');
     const [isFilterExpanded, setIsFilterExpanded] = useState(filters.isFilterExpanded || false);
 
     console.log('Products:', products);
@@ -73,8 +72,6 @@ function Products({ products, filters }: Props) {
             route('products.index'),
             {
                 search,
-                // category,
-                perPage,
             },
             {
                 preserveState: true,
@@ -86,7 +83,7 @@ function Products({ products, filters }: Props) {
     const handleReset = () => {
         setSearch('');
         // setCategory('all');
-        setPerPage('10');
+        // setPerPage('10');
         router.get(
             route('products.index'),
             {},
@@ -130,20 +127,7 @@ function Products({ products, filters }: Props) {
                     <Label htmlFor="search">Search</Label>
                     <Input id="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search products..." />
                 </div>
-                <div>
-                    <Label htmlFor="perPage">Items Per Page</Label>
-                    <Select value={perPage} onValueChange={setPerPage}>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select per page" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="10">10</SelectItem>
-                            <SelectItem value="25">25</SelectItem>
-                            <SelectItem value="50">50</SelectItem>
-                            <SelectItem value="100">100</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
+
             </BaseTableFilters>
 
             <Table>
@@ -156,10 +140,10 @@ function Products({ products, filters }: Props) {
                             Name
                         </TableHead>
                         <TableHead onClick={() => handleSort('email')} className="cursor-pointer">
-                            Email
+                            Description
                         </TableHead>
                         <TableHead onClick={() => handleSort('created_at')} className="cursor-pointer">
-                            Created At
+                            Price
                         </TableHead>
                     </TableRow>
                 </TableHeader>
@@ -168,8 +152,8 @@ function Products({ products, filters }: Props) {
                         <TableRow key={product.id}>
                             <TableCell>{product.id}</TableCell>
                             <TableCell>{product.name}</TableCell>
-                            <TableCell>{product.name}</TableCell>
-                            <TableCell>{product.name}</TableCell>
+                            <TableCell>{product.description}</TableCell>
+                            <TableCell>{product.price}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

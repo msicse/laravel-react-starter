@@ -17,14 +17,9 @@ class ProductController extends Controller
             ->when($request->search && trim($request->search) !== '', function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%");
-            })
+            });
 
-            // ->when($request->type, function ($query, $type) {
-            //     $query->whereHas('type', function ($q) use ($type) {
-            //         $q->where('id', $type);
-            //     });
-            // })
-            ->orderBy('created_at', 'desc');
+
 
         $products = $query->latest()->paginate($request->per_page ?? 10)
             ->withQueryString();
