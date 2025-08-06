@@ -44,6 +44,7 @@ interface Props extends PageProps {
         to: number;
         total: number;
     };
+    pageRoute: string;
     meta: any[];
     categories: {
         id: number;
@@ -65,6 +66,7 @@ function Products({ products, filters }: Props) {
     const [isFilterExpanded, setIsFilterExpanded] = useState(filters.isFilterExpanded || false);
 
     console.log('Products:', products);
+    const pageRoute = route('products.index');
 
     const handleFilter = () => {
         router.get(
@@ -173,7 +175,7 @@ function Products({ products, filters }: Props) {
                 </TableBody>
             </Table>
 
-            <BasePagination meta={products} />
+            <BasePagination meta={products} pageRoute={pageRoute} />
         </BaseLayout>
     );
 }

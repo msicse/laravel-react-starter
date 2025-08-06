@@ -1,13 +1,16 @@
 import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { useState } from "react";
 
 interface LinkType {
     url: string | null;
     label: string;
     active: boolean;
 }
+
+type PerPageOption = '10' | '20' | '50' | '100';
 
 interface PaginationProps {
     meta: {
@@ -22,9 +25,11 @@ interface PaginationProps {
         next_page_url: string;
         last_page: number;
     };
+    perPage?: number;
+    pageRoute: string;
 }
 
-export default function BasePagination({ meta }: PaginationProps) {
+export default function BasePagination({ meta, perPage = 10, pageRoute }: PaginationProps) {
     const { links, from, to, total } = meta;
 
     // Remove first and last link if they're "Previous" and "Next"
@@ -33,11 +38,32 @@ export default function BasePagination({ meta }: PaginationProps) {
     // Get first and last page URLs
     const firstPageUrl = meta.first_page_url;
     const lastPageUrl = meta.last_page_url;
+    const currentPerPage = perPage ?? 10;
+    const [selectedValue, setSelectedValue] = useState<PerPageOption>(perPage.toString() as PerPageOption)
+
+
+
+    const handlePerPageChange = (value: PerPageOption) => {
+        setSelectedValue(value);
+        console.log(pageRoute);
+        console.log(value);
+        // Use Inertia's router to make a GET request with the new perPage value
+        router.get(
+            pageRoute,
+            {
+                per_page: value,
+            },
+            {
+                preserveState: true,
+                replace: true,
+            },
+        );
+    };
 
     return (
-        <div className="flex flex-col lg:flex-row justify-between items-center mt-6 text-sm bg-white dark:bg-transparent p-4 rounded-md shadow-sm gap-2">
+        <div className="mt-6 flex flex-col items-center justify-between gap-2 rounded-md bg-white p-4 text-sm shadow-sm lg:flex-row dark:bg-transparent">
             {/* Info: Showing X to Y of Z */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-4 lg:mb-0 w-full">
+            <div className="mb-4 flex w-full flex-col items-center gap-4 sm:flex-row lg:mb-0">
                 {from !== null && to !== null && (
                     <span>
                         Showing <span className="font-semibold text-gray-800 dark:text-gray-200">{from || 0}</span> to{' '}
@@ -48,8 +74,8 @@ export default function BasePagination({ meta }: PaginationProps) {
             </div>
 
             <div className="">
-                <Select>
-                    <SelectTrigger className="w-[150px]">
+                <Select value={selectedValue} onValueChange={handlePerPageChange}>
+                    <SelectTrigger className="w-[80px]">
                         <SelectValue placeholder="Per page" />
                     </SelectTrigger>
                     <SelectContent>
