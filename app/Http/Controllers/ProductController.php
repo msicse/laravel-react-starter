@@ -26,7 +26,7 @@ class ProductController extends Controller
             // })
             ->orderBy('created_at', 'desc');
 
-        $products = $query->paginate($request->perPage ?? 10)
+        $products = $query->latest()->paginate($request->perPage ?? 10)
             ->withQueryString();
 
 
