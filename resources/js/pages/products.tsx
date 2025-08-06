@@ -1,6 +1,6 @@
+
 import BasePagination from "@/base/base-pagination";
 import { BaseTableFilters } from '@/base/base-table-filter';
-import Pagination from "@/base/new-pagination";
 import { PageHeader } from '@/base/page-header';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -44,6 +44,7 @@ interface Props extends PageProps {
         to: number;
         total: number;
     };
+    meta: any[];
     categories: {
         id: number;
         name: string;
@@ -172,11 +173,7 @@ function Products({ products, filters }: Props) {
                 </TableBody>
             </Table>
 
-            <div className="flex items-center justify-between pt-4">
-                {/* <BasePagination data={products} /> */}
-
-                <Pagination links={products.links} />
-            </div>
+            <BasePagination meta={products} />
         </BaseLayout>
     );
 }

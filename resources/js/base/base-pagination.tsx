@@ -1,85 +1,152 @@
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from '@/components/ui/pagination';
-import { Select } from "@/components/ui/select";
+import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Link } from '@inertiajs/react';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
-interface PageLink {
+interface LinkType {
     url: string | null;
     label: string;
     active: boolean;
 }
 
-interface PaginatorData {
-    links: PageLink[];
-    current_page: number;
-    last_page: number;
-    from: number;
-    to: number;
-    total: number;
+interface PaginationProps {
+    meta: {
+        from: number | null;
+        to: number | null;
+        total: number;
+        links: LinkType[];
+        current_page: number;
+        first_page_url: string;
+        last_page_url: string;
+        prev_page_url: string;
+        next_page_url: string;
+        last_page: number;
+    };
 }
 
-interface PaginatorProps {
-    data: PaginatorData;
-}
+export default function BasePagination({ meta }: PaginationProps) {
+    const { links, from, to, total } = meta;
 
-const BasePagination = ({ data }: PaginatorProps) => {
+    // Remove first and last link if they're "Previous" and "Next"
+    const numberedLinks = links.slice(1, -1);
+
+    // Get first and last page URLs
+    const firstPageUrl = meta.first_page_url;
+    const lastPageUrl = meta.last_page_url;
+
     return (
-        <div className="mt-8 flex w-full items-center justify-between border-t px-6 py-4">
-            <p className="text-sm text-muted-foreground">
-                Showing <strong>{data.from}</strong> to <strong>{data.to}</strong> of <strong>{data.total}</strong> results
-            </p>
-            <div>
-                <Select></Select>
+        <div className="flex flex-col lg:flex-row justify-between items-center mt-6 text-sm bg-white dark:bg-transparent p-4 rounded-md shadow-sm gap-2">
+            {/* Info: Showing X to Y of Z */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-4 lg:mb-0 w-full">
+                {from !== null && to !== null && (
+                    <span>
+                        Showing <span className="font-semibold text-gray-800 dark:text-gray-200">{from || 0}</span> to{' '}
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">{to || 0}</span> of{' '}
+                        <span className="font-semibold text-gray-800 dark:text-gray-200">{total || 0}</span> results
+                    </span>
+                )}
             </div>
-            <div>
-                <Pagination>
-                    <PaginationContent>
-                        {data.links.map((link, index) => {
-                            // Render "Previous" link
-                            if (index === 0) {
-                                return (
-                                    <PaginationItem key="previous">
-                                        <PaginationPrevious as={Link} href={link.url ?? '#'} preserveState preserveScroll disabled={!link.url} />
-                                    </PaginationItem>
-                                );
-                            }
-                            // Render "Next" link
-                            if (index === data.links.length - 1) {
-                                return (
-                                    <PaginationItem key="next">
-                                        <PaginationNext as={Link} href={link.url ?? '#'} preserveState preserveScroll disabled={!link.url} />
-                                    </PaginationItem>
-                                );
-                            }
-                            // Render ellipsis
-                            if (link.label.includes('...')) {
-                                return (
-                                    <PaginationItem key={`ellipsis-${index}`}>
-                                        <PaginationEllipsis />
-                                    </PaginationItem>
-                                );
-                            }
-                            // Render numeric page link
-                            return (
-                                <PaginationItem key={link.label}>
-                                    <PaginationLink as={Link} href={link.url ?? '#'} isActive={link.active} preserveState preserveScroll>
-                                        {link.label}
-                                    </PaginationLink>
-                                </PaginationItem>
-                            );
-                        })}
-                    </PaginationContent>
-                </Pagination>
+
+            <div className="">
+                <Select>
+                    <SelectTrigger className="w-[150px]">
+                        <SelectValue placeholder="Per page" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="10">10</SelectItem>
+                        <SelectItem value="20">20</SelectItem>
+                        <SelectItem value="50">50</SelectItem>
+                        <SelectItem value="100">100</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
+
+            {/* Pagination links */}
+            <Pagination className="flex items-center">
+                <PaginationContent className="flex items-center gap-0">
+                    <PaginationItem>
+                        <Link
+                            preserveScroll
+                            href={firstPageUrl || '#'}
+                            className={`relative inline-flex h-8 w-8 items-center justify-center rounded-l-md border-y border-l ${
+                                meta?.current_page === 1
+                                    ? 'cursor-not-allowed border-gray-300 bg-gray-100 opacity-50 dark:border-gray-600 dark:bg-gray-700'
+                                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
+                            }`}
+                            disabled={meta?.current_page === 1}
+                            title="First page"
+                        >
+                            <ChevronsLeft className="h-3.5 w-3.5" />
+                        </Link>
+                    </PaginationItem>
+                    {/* Previous Button */}
+                    <PaginationItem>
+                        <Link
+                            preserveScroll
+                            href={meta.prev_page_url || '#'}
+                            className={`relative inline-flex h-8 w-8 items-center justify-center border-y ${
+                                !meta.prev_page_url
+                                    ? 'cursor-not-allowed border-gray-300 bg-gray-100 opacity-50 dark:border-gray-600 dark:bg-gray-700'
+                                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
+                            }`}
+                            disabled={!meta.prev_page_url}
+                            title="Previous page"
+                        >
+                            <ChevronLeft className="h-3.5 w-3.5" />
+                        </Link>
+                    </PaginationItem>
+
+                    {/* Numbered Page Buttons */}
+                    {numberedLinks.map((link, i) => (
+                        <PaginationItem key={i}>
+                            <Link
+                                preserveScroll
+                                href={link.url || '#'}
+                                key={i}
+                                className={`relative inline-flex h-8 w-8 items-center justify-center border-y ${
+                                    link.active
+                                        ? 'z-10 border-indigo-500 bg-indigo-50 font-medium text-indigo-600 dark:border-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-300'
+                                        : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
+                                } ${!link.url ? 'cursor-not-allowed opacity-50' : ''}`}
+                                dangerouslySetInnerHTML={{ __html: link.label }}
+                                title={`Page ${link.label}`}
+                            ></Link>
+                        </PaginationItem>
+                    ))}
+
+                    {/* Next Button */}
+                    <PaginationItem>
+                        <Link
+                            preserveScroll
+                            href={meta.next_page_url || '#'}
+                            className={`relative inline-flex h-8 w-8 items-center justify-center border-y ${
+                                !meta.next_page_url
+                                    ? 'cursor-not-allowed border-gray-300 bg-gray-100 opacity-50 dark:border-gray-600 dark:bg-gray-700'
+                                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
+                            }`}
+                            disabled={!meta.next_page_url}
+                            title="Next page"
+                        >
+                            <ChevronRight className="h-3.5 w-3.5" />
+                        </Link>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <Link
+                            preserveScroll
+                            href={lastPageUrl || '#'}
+                            className={`relative inline-flex h-8 w-8 items-center justify-center rounded-r-md border-y border-r ${
+                                meta?.current_page === meta?.last_page
+                                    ? 'cursor-not-allowed border-gray-300 bg-gray-100 opacity-50 dark:border-gray-600 dark:bg-gray-700'
+                                    : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
+                            }`}
+                            disabled={meta?.current_page === meta?.last_page}
+                            title="Last page"
+                        >
+                            <ChevronsRight className="h-3.5 w-3.5" />
+                        </Link>
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
         </div>
     );
-};
-
-export default BasePagination;
+}
